@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   
   s.add_dependency "redis", ">= 2.2"
   
-  s.add_development_dependency "sinatra"       , "~> 1.3.2"
+  s.add_development_dependency "sinatra"
   s.add_development_dependency "vegas"         , "~> 0.1.11"
   s.add_development_dependency "rspec"         , "~> 2.12"
   s.add_development_dependency "rspec-fire"    , "~> 1.1"
