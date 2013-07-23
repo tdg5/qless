@@ -20,7 +20,7 @@ put in. So if a worker is working on a job, and you move it, the worker's reques
 complete the job will be ignored.
 
 A job can be `canceled`, which means it disappears into the ether, and we'll never
-pay it any mind every again. A job can be `dropped`, which is when a worker fails
+pay it any mind ever again. A job can be `dropped`, which is when a worker fails
 to heartbeat or complete the job in a timely fashion, or a job can be `failed`,
 which is when a host recognizes some systematically problematic state about the
 job. A worker should only fail a job if the error is likely not a transient one;
@@ -276,13 +276,13 @@ has a rack-based ruby web app, we recommend you mount Qless's web app
 in it. Here's how you can do that with `Rack::Builder` in your `config.ru`:
 
 ``` ruby
-Qless::Server.client = Qless::Client.new(:host => "some-host", :port => 7000)
+client = Qless::Client.new(:host => "some-host", :port => 7000)
 
 Rack::Builder.new do
   use SomeMiddleware
 
   map('/some-other-app') { run Apps::Something.new }
-  map('/qless')          { run Qless::Server.new }
+  map('/qless')          { run Qless::Server.new(client) }
 end
 ```
 
@@ -607,4 +607,10 @@ The options hash passed to `Qless::Job.build` supports all the same
 options a normal job supports. See
 [the source](https://github.com/seomoz/qless/blob/master/lib/qless/job.rb)
 for a full list.
+
+Mailing List
+============
+
+For questions and general Qless discussion, please join the [Qless
+Mailing list](https://groups.google.com/forum/?fromgroups#!forum/qless).
 
