@@ -147,6 +147,8 @@ function Qless.jobs(now, state, ...)
     local queue = Qless.queue(name)
     if state == 'running' then
       return queue.locks.peek(now, offset, count)
+    elseif state == 'waiting' then
+      return queue.work.peek(count)
     elseif state == 'stalled' then
       return queue.locks.expired(now, offset, count)
     elseif state == 'throttled' then
