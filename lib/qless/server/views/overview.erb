@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-    <% queues.each do |queue| %>
+    <% (@filter_empty ? non_empty_queues || queues).each do |queue| %>
     <tr class="queue-row">
       <td class="queue-column large-text">
         <% if queue['paused'] %>

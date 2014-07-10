@@ -92,12 +92,16 @@ module Qless
         client.config['application']
       end
 
-      def queues
+      def non_empty_queues
         states = %w(running waiting throttled scheduled stalled depends recurring)
-        client.queues.counts.reject do |queue|
+        queues.reject do |queue|
           total  = states.reduce(0) { |sum, state| sum += queue[state] }
           total == 0
         end
+      end
+
+      def queues
+        client.queues.counts
       end
 
       def throttles
