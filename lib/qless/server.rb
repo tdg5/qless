@@ -93,7 +93,11 @@ module Qless
       end
 
       def queues
-        client.queues.counts
+        states = %w(running waiting throttled scheduled stalled depends recurring)
+        client.queues.counts.reject do |queue|
+          total  = states.reduce(0) { |sum, state| sum += queue[state] }
+          total == 0
+        end
       end
 
       def throttles
@@ -215,7 +219,7 @@ module Qless
         throttle.maximum = data['maximum']
       end
     end
-    
+
     put '/throttle' do
       # Expects a JSON object: {'id': id, 'expiration': expiration}
       data = JSON.parse(request.body.read)
@@ -264,7 +268,7 @@ module Qless
     end
 
     get '/completed/?' do
-      completed = paginated(client.jobs, :complete)      
+      completed = paginated(client.jobs, :complete)
       erb :completed, layout: true, locals: {
         title: 'Completed',
         jobs: completed.map { |jid| client.jobs[jid] }
